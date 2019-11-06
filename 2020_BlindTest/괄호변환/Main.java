@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-
 class Main {
 	public static void main(String[] args){
         String p1 = "(()())()";
@@ -9,14 +8,10 @@ class Main {
 
         String p4 = "";
 
-        String answer = solution(p2);
+        String answer = solution(p3);
         System.out.println(answer);
     }
     
-    // (와 )의 개수가 같으면 균형잡힌 괄호 문자열
-    // 여기에 짝도 모두 맞을 경우 올바른 괄호 문자열
-
-    // 올바른 괄호 문자열로 변환
     public static String solution(String p){
         String answer = "";
 
@@ -53,7 +48,8 @@ class Main {
 
         // 3번. u가 올바른 괄호 문자열인지 검사
         if(correctString(u)){
-            solve(v);
+            u += solve(v);
+            answer = u;
         }
         else{
             // 4-1
@@ -72,34 +68,59 @@ class Main {
             answer = temp;
         }
 
-
-        System.out.println("u: " + u);
-        System.out.println("v: " + v);
-
         return answer;
     }
 
     public static boolean correctString(String v){
         boolean flag = false;
+        ArrayList<Character> stack = new ArrayList<>();
+        int top = -1;
 
+        char[] str = v.toCharArray();
         
+
+        // 처음부터 거꾸로 되어있는 경우
+        if(str[0] == ')'){
+            return flag;
+        }
+        else{
+            stack.add(str[0]);
+            top++;
+        }
+        
+        
+        for (int i = 1; i < str.length; i++) {
+            if(stack.get(top) != str[i]){
+                stack.remove(top);
+                top--;
+            }
+            else{
+                stack.add(str[0]);
+                top++;
+            }
+
+        }
+
+        if(stack.size() == 0)
+            flag = true;
+
         return flag;
     }
 
     public static String flip(String s){
-        char[] str = s.toCharArray();
-        
+        String temp = "";
+
         if(s.equals("")){
             return "";
         }
 
-        for (int i = 0; i < str.length; i++) {
-            if(str[i] == '(')
-                str[i] = ')';
+        for (int i = 0; i < s.length(); i++) {
+            if(s.charAt(i) == '(')
+                temp += ")";
             else
-                str[i] = '(';
+                temp += "(";
         }
 
-        return str.toString();
+        return temp;
     }
 }
