@@ -28,7 +28,8 @@ class KakaoIntern2019_2 {
 			}
 		}
 		
-		// 크기 순으로 정렬
+		// 리스트의 크기를 기준으로 오름차순 정렬
+		// 차집합을 통해 ak번째 원소를 알아내기 위해서
 		Arrays.sort(list, new Comparator<ArrayList>() {
 			@Override
 			public int compare(ArrayList a, ArrayList b) {
@@ -40,11 +41,13 @@ class KakaoIntern2019_2 {
 			}
 		});
 		
-		int t = list[0].get(0);
+		int t = list[0].get(0);	// a1
 		ArrayList<Integer> result = new ArrayList<>();
 		result.add(t);
+		// 차집합
 		for(int i=1; i<list.length; i++) {
 			for(int j=0; j<list[i].size(); j++) {
+				// result배열에 없는 값이 차집합을 통해 나온 ak원소
 				if(result.contains(list[i].get(j)))
 					continue;
 				else {
@@ -53,6 +56,7 @@ class KakaoIntern2019_2 {
 			}
 		}
 		
+		// 배열로 변환
 		int[] ans = new int[result.size()];
 		for(int i=0; i<result.size(); i++)
 			ans[i] = result.get(i);
