@@ -60,10 +60,12 @@ class KakaoIntern2019_3 {
 			Pattern pattern = Pattern.compile(s);
 			Matcher matcher = pattern.matcher(user_id[i]);
 			
+			// 정규 표힌식에 매칭 되고, 길이가 같은 경우
 			if(matcher.find() && user_id[i].length() == banned_id[idx].length()) {
+				// 제제 아이디로 체크하지 않은 경우 check
 				if(!visited[i]) {
 					visited[i] = true;				
-					dfs(banned_id, user_id, idx+1, n+1, visited);
+					dfs(banned_id, user_id, idx+1, n+1, visited);	// 다음 banned_id와 매칭되는 제재 아이디 찾기
 					visited[i] = false;					
 				}
 			}
