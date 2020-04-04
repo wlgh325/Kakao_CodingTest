@@ -1,13 +1,4 @@
 import java.util.*;
-
-	// 방을 배정한다.
-	// 호텔에는 방이 총 k 개 있다.
-	// 방 번호는 1~k번
-	// 한 번에 한명씩 신청한 대로
-	// 투숙하기 원하는 방 제출
-	// 원하는 방이 비어있다면 즉시 배정
-	// 이미 배정되어 있다면 원하는 방보다 번호가 크면서. 비어있는 방 중 가장 작은 번호의 방
-    // 방은 최대 10^12 개
     
 class KakaoIntern2019_4 {
     public static void main(String[] args) throws IOException{
