@@ -1,100 +1,79 @@
 class Main {
 	public static void main(String[] args){
-        int[][] key = { {0,0,0},
-                        {1,0,0},
-                        {0,1,1}};
-
-        int[][] lock = { {1,1,1},
-                        {1,1,0},
-                        {1,0,1}};
-
-        boolean answer = solution(key, lock);
-        System.out.println(answer);
-    }
-    
-    
-    public static boolean solution(int[][] key, int[][] lock){
+		int[][] key = {{0, 0, 0}, {1, 0, 0}, {0, 1, 1}};
+		int[][] lock = {{1, 1, 1}, {1, 1, 0}, {1, 0, 1}};
+		if(solution(key, lock))
+			System.out.println("true");
+		else
+			System.out.println("false");
+	}
+	
+    public static boolean solution(int[][] key, int[][] lock) {
         boolean answer = false;
-
-        int lock_size = lock.length;
-        int key_size = key.length;
+        int size = lock.length;
+        int[][] newLock = new int[size*3-2][size*3-2];
+        // 자물쇠를 둘러싼 빈 공간 생성
+        for(int i=size-1, end=size*2-1; i<end; i++) 
+        	System.arraycopy(lock[i-(size-1)], 0, newLock[i], size-1, lock[i-(size-1)].length);
         
-        int[][] bigLock = new int[lock_size*2 + lock_size-2][lock_size*2 + lock_size - 2];
-        int diff = lock_size - key.length;
-
-        // 크게 확장한 열쇠 만들기
-        for (int i = 0; i < lock_size; i++) {
-            for (int j = 0; j < lock_size; j++) {
-                bigLock[i+lock_size-1][j+lock_size-1] += lock[i][j];
-            }
+        int newSize = newLock.length;
+        int keySize = key.length;
+        boolean flag = false;
+        
+        for(int i=0; i<4; i++) {
+        	key = rotate(key);
+        	
+        	int[][] copy = new int[newSize][newSize];
+        	// sliding 방식으로 모두 차례차례 맞춰보기
+        	for(int x=0; x<=newSize-keySize; x++) {
+                for(int y=0; y<=newSize-keySize; y++) {
+                    // 원본 배열 유지를 위해 복사
+        			for(int j=0; j<newSize; j++)
+        				System.arraycopy(newLock[j], 0, copy[j], 0, newSize);
+        			for(int j=0; j<keySize; j++) {
+                		for(int k=0; k<keySize; k++) {
+                			copy[j+x][k+y] += key[j][k];
+                		}
+                	}
+        			print(copy);
+        			if(check(copy, size)) {
+        				answer = true;
+        				flag = true;
+        				break;
+        			}
+        		}
+        		if(flag)
+        			break;
+        	}
+        	if(flag)
+        		break;
         }
-
-
-        // 열쇠와 자물쇠 맞춰보기
-        for (int w = 0; w< lock_size*2 + diff - 1; w++) {
-            for (int l = 0; l < lock_size*2 + diff - 1; l++) {
-                for (int k = 0; k < 3; k++) {
-                    int[][] copyLock = deepCopy(bigLock);
-        
-                    for (int i = 0; i < key.length; i++) {
-                        for (int j = 0; j < key.length; j++) {
-                            copyLock[i+w][j+l] += key[i][j];
-                        }
-                    }    
-        
-                    if(!isOpen(lock_size, copyLock)){
-                        key = rotate90(key);
-                    }
-                    else
-                        return true;
-                    
-                }
-                key = rotate90(key);
-            }
-        }
-        
         return answer;
     }
-
-    public static int[][] deepCopy(int[][] origin){
-        if(origin == null) return null;
-
-        int[][] dest = new int[origin.length][origin[0].length];
-
-        for (int i = 0; i < origin.length; i++) {
-            System.arraycopy(origin[i], 0, dest[i], 0, origin[0].length);
-        }
-
-        return dest;
-    }
-
-    public static int[][] rotate90(int[][] arr){
-        int len = arr.length;
-        int[][] rotated = new int [len][len];
-
-        
-        for (int i = 0; i < rotated.length; i++) {
-            for (int j = 0; j < rotated.length; j++) {
-                rotated[i][j] = arr[len-j-1][i];
-            }
-        }
-
-        return rotated;
-    }
-
     
-    //lock의 모든 부분이 1이되면 됨
-    public static boolean isOpen(int size, int[][] arr){
-        boolean flag = true;
-
-        for (int i =0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if(arr[i+size-1][j+size-1] != 1){
-                    return false;
-                }
-            }   
-        }
-
-        return flag;
+    public static boolean check(int[][] lock, int size) {
+    	boolean flag = true;
+    	for(int i=size-1; i<size*2-1; i++) {
+    		for(int j=size-1; j<size*2-1; j++) {
+    			if(lock[i][j] != 1) {
+    				flag = false;
+    				break;
+    			}
+    		}
+    		if(!flag)
+    			return flag;
+    	}
+    	return flag;
+    }
+    
+    // 시계방향 회전
+    public static int[][] rotate(int[][] key) {
+    	int[][] dest = new int[key.length][key[0].length];
+    	for(int i=0; i<key.length; i++) {
+    		for(int j=0; j<key[0].length; j++) {
+    			dest[i][j] = key[key.length-j-1][i];    			
+    		}
+    	}
+    	return dest;
     }
 }
