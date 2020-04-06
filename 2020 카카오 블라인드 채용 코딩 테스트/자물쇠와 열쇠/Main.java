@@ -17,7 +17,7 @@ class Main {
         boolean answer = false;
 
         int lock_size = lock.length;
-
+        int key_size = key.length;
         
         int[][] bigLock = new int[lock_size*2 + lock_size-2][lock_size*2 + lock_size - 2];
         int diff = lock_size - key.length;
@@ -69,9 +69,10 @@ class Main {
     }
 
     public static int[][] rotate90(int[][] arr){
-        int[][] rotated = new int [arr.length][arr.length];
-
         int len = arr.length;
+        int[][] rotated = new int [len][len];
+
+        
         for (int i = 0; i < rotated.length; i++) {
             for (int j = 0; j < rotated.length; j++) {
                 rotated[i][j] = arr[len-j-1][i];
@@ -88,7 +89,7 @@ class Main {
 
         for (int i =0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                if(arr[i+size-1][j+size-1] == 0 || arr[i+size-1][j+size-1] == 2){
+                if(arr[i+size-1][j+size-1] != 1){
                     return false;
                 }
             }   
