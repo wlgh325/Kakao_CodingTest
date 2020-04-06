@@ -1,6 +1,6 @@
 # <span style="color:orange; font-size:17pt; font-weight:bold">2020 카카오 블라인드 공채 코딩 테스트 (2020 Kakao Blind Recruitment) 기출문제</span>
 - Level 3
-# <span style="color: orange">2번 괄호변환</span>
+# <span style="color: orange">3번 자물쇠와 열쇠</span>
 
 <br><br>
 
